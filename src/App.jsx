@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import './App.css'
+import React from 'react';
+import './App.css';
 import Login from './views/Login.jsx';
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
         <Login />
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
