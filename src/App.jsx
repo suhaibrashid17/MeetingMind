@@ -1,17 +1,25 @@
 import React from 'react';
 import './App.css';
-import Login from './views/Login.jsx';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './views/Login';
+import Register from './views/Register';
 
 function App() {
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <h1>Welcome to MeetingMind</h1>
-      </header>
-      <main className="app-main">
-        <Login />
-      </main>
-    </div>
+    <BrowserRouter>
+      <div className="app-container">
+        <header className="app-header">
+          <h1>Welcome to MeetingMind</h1>
+        </header>
+        <main className="app-main">
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
   );
 }
 
