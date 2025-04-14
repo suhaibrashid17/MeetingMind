@@ -1,31 +1,28 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../api/axios';
 
-// Async thunk for login
-export const loginUser = createAsyncThunk(
-  'auth/loginUser',
-  async ({ email, password }, { rejectWithValue }) => {
-    try {
-      const res = await axios.post('/auth/login', { email, password });
-      return res.data.user;
-    } catch (err) {
-      return rejectWithValue(err.response?.data?.message || 'Login failed');
-    }
+// auto-login from cookie
+export const checkAuth = createAsyncThunk('auth/checkAuth', async (_, thunkAPI) => {
+  try {
+    const res = await axios.get('/auth/check');
+    return res.data.user;
+  } catch (err) {
+    return thunkAPI.rejectWithValue('Not authenticated');
   }
-);
+});
 
-// async thunk for logout (ye optional server cal h)
-export const logoutUser = createAsyncThunk(
-  'auth/logoutUser',
-  async (_, { rejectWithValue }) => {
-    try {
-      await axios.post('/auth/logout');
-      return true;
-    } catch (err) {
-      return rejectWithValue('Logout failed');
-    }
+export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, thunkAPI) => {
+  try {
+    const res = await axios.post('/auth/login', credentials);
+    return res.data.user;
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err.response?.data?.message || 'Login failed');
   }
-);
+});
+
+export const logoutUser = createAsyncThunk('auth/logoutUser', async () => {
+  await axios.post('/auth/logout');
+});
 
 const authSlice = createSlice({
   name: 'auth',
@@ -33,7 +30,7 @@ const authSlice = createSlice({
     user: null,
     isAuthenticated: false,
     loading: false,
-    error: null
+    error: null,
   },
   reducers: {
     clearError: (state) => {
@@ -54,6 +51,14 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(checkAuth.rejected, (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;

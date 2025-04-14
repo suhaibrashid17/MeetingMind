@@ -1,8 +1,8 @@
-// 📁 src/App.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { checkAuth } from './redux/authSlice';
 
 import Login from './views/Login';
 import Register from './views/Register';
@@ -14,6 +14,11 @@ import Navbar from './components/Navbar';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
 
   return (
     <BrowserRouter>
