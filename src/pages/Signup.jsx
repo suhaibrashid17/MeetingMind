@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Register } from "../auth/authSlice";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -7,14 +10,29 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch(); 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      alert(`Signup attempt with: ${username} (${email})`);
-    }, 1500);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = emailRegex.test(email);
+    const isPasswordStrong = password.length >= 8;
+    const isUsernameValid = username.length >= 3;
+        if (!isEmailValid) {
+          toast.error("Please enter a valid email address.");
+          return;
+        }
+        else if (!isPasswordStrong) {
+          toast.error("Password must be at least 8 characters long.");
+          return;
+        }
+        else if (!isUsernameValid) {
+          toast.error("Password must be at least 8 characters long.");
+          return;
+        }
+        else{
+          await dispatch(Register({"email":email, "username":username, "password":password}))
+        }
   };
 
   return (

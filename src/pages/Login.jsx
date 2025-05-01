@@ -1,22 +1,44 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Login as loginUser, selectLoggedinUser } from "../auth/authSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const user = useSelector(selectLoggedinUser);
+  useEffect(()=>{
+      if(user){
+        navigate("/home");
+      }
+  },[user, navigate])
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      alert("Login attempt with: " + email);
-    }, 1500);
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = emailRegex.test(email);
+  
+    if (!isEmailValid) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+    
+    else{
+         await dispatch(loginUser({"email":email, "password":password}))
+         console.log(user)
+         
+    }
   };
-
+  
+  
   return (
+    
     <div className="flex bg-white w-full h-screen justify-center items-center p-4">
+
       <div className="bg-white flex flex-col shadow-xl w-full max-w-lg rounded-2xl overflow-hidden">
         <div className="bg-black p-6">
           <h1 className="font-bold text-2xl text-white text-center">Welcome Back</h1>
