@@ -11,7 +11,7 @@ export const CreateDepartment = createAsyncThunk(
   async (Details, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/department",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/department`,
         Details
       );
       return response.data;
@@ -30,7 +30,7 @@ export const GetDepartmentById = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/department/" + id
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/department/` + id
       );
       return response.data;
     } catch (error) {
@@ -48,7 +48,7 @@ export const AddEmployee = createAsyncThunk(
   async (Details, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/addemployee/" + Details.id,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/addemployee/` + Details.id,
         Details.object
       );
       return response.data;
@@ -67,7 +67,7 @@ export const AssignHead = createAsyncThunk(
   async (Details, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/assignadmin/" + Details.id,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/assignadmin/` + Details.id,
         Details.object
       );
       return response.data;
@@ -86,7 +86,7 @@ export const RemoveEmployee = createAsyncThunk(
   async (Details, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        "http://localhost:5000/api/departments/" + Details.deptId +"/employees/"+Details.employeeId);
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/departments/` + Details.deptId +"/employees/"+Details.employeeId);
       return response.data;
     } catch (error) {
       if (error.response && error.response.data) {
@@ -103,7 +103,7 @@ export const RemoveHead = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        "http://localhost:5000/api/removehead/" + id);
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/removehead/` + id);
       return response.data;
     } catch (error) {
       if (error.response && error.response.data) {

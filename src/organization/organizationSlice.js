@@ -12,7 +12,7 @@ export const GetOwned = createAsyncThunk(
     "org/getowned",
     async (id, { rejectWithValue }) => {
       try {
-        const response = await axios.get("http://localhost:5000/api/getownedorganizations", {
+        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/getownedorganizations`, {
            
             params: {
                 userId:id,
@@ -33,7 +33,7 @@ export const GetOwned = createAsyncThunk(
     "org/getheaded",
     async (id, { rejectWithValue }) => {
       try {
-        const response = await axios.get("http://localhost:5000/api/getheadeddepartments", {
+        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/getheadeddepartments`, {
            
           params: {
               userId:id,
@@ -53,7 +53,7 @@ export const GetOwned = createAsyncThunk(
     "org/getemployed",
     async (id, { rejectWithValue }) => {
       try {
-        const response = await axios.get("http://localhost:5000/api/getemployeeroles", {
+        const response = await axios.get( `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/getemployeeroles`, {
            
           params: {
               userId:id,
@@ -73,7 +73,7 @@ export const GetOwned = createAsyncThunk(
     "org/create",
     async (OrgDetails, { rejectWithValue }) => {
       try {
-        const response = await axios.post("http://localhost:5000/api/organization", OrgDetails);
+        const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/organization`, OrgDetails);
         return response.data;
       } catch (error) {
         if (error.response && error.response.data) {
@@ -88,7 +88,7 @@ export const GetOwned = createAsyncThunk(
     "org/get",
     async (ID, { rejectWithValue }) => {
       try {
-        const response = await axios.get("http://localhost:5000/api/organization/"+ID);
+        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/organization/`+ID);
         return response.data;
       } catch (error) {
         if (error.response && error.response.data) {
@@ -103,7 +103,7 @@ export const GetOwned = createAsyncThunk(
     "org/getdept",
     async (ID, { rejectWithValue }) => {
       try {
-        const response = await axios.get("http://localhost:5000/api/organization/"+ID);
+        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/organization/`+ID);
         return response.data;
       } catch (error) {
         if (error.response && error.response.data) {

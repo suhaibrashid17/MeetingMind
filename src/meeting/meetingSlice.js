@@ -13,7 +13,7 @@ export const CreateMeeting = createAsyncThunk(
     console.log(Details);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/meeting",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/meeting`,
         Details
       );
       return response.data;
@@ -32,7 +32,7 @@ export const GetAttendedMeetings = createAsyncThunk(
     async (id, { rejectWithValue }) => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/getattendedmeetings/"+id);
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/getattendedmeetings/`+id);
         return response.data;
       } catch (error) {
         if (error.response && error.response.data) {
@@ -49,7 +49,7 @@ export const GetAttendedMeetings = createAsyncThunk(
     async (id, { rejectWithValue }) => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/getorganizedmeetings/"+id);
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/getorganizedmeetings/`+id);
         return response.data;
       } catch (error) {
         if (error.response && error.response.data) {
