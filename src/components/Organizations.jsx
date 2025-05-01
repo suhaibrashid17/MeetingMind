@@ -25,6 +25,8 @@ const Organizations = () => {
   const E = useSelector(selectEmployed);
   useEffect(() => {
     dispatch(GetOwned(userId));
+    dispatch(GetEmployed(userId));
+    dispatch(GetHeaded(userId));
   }, []);
   const handleCreateOrganization = async () => {
     if (orgName.length <= 2) {
@@ -63,7 +65,16 @@ const Organizations = () => {
       {H.length>0&&<div className="flex flex-col space-y-4">
         <h1 className="text-xl font-bold">Organizations you are a Head at</h1>
         <div className="flex flex-wrap gap-4">
-          {/* Map head organizations here */}
+        {
+            H.map((h, index) => (
+              <div
+                className="w-full sm:w-48 h-32 bg-black text-white flex items-center justify-center text-4xl rounded-md hover:scale-105 hover:opacity-75 hover:cursor-pointer transition-transform"
+                key={index}
+                onClick={()=>navigate("/organization/"+h._id)}
+              >
+                {h.name}
+              </div>
+            ))}
         </div>
       </div>}
 
@@ -72,7 +83,16 @@ const Organizations = () => {
           Organizations you are an Employee of
         </h1>
         <div className="flex flex-wrap gap-4">
-          {/* Map employee organizations here */}
+        {
+            E.map((e, index) => (
+              <div
+                className="w-full sm:w-48 h-32 bg-black text-white flex items-center justify-center text-4xl rounded-md hover:scale-105 hover:opacity-75 hover:cursor-pointer transition-transform"
+                key={index}
+                onClick={()=>navigate("/organization/"+e._id)}
+              >
+                {e.name}
+              </div>
+            ))}
         </div>
       </div>}
 

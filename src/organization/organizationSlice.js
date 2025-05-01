@@ -31,9 +31,14 @@ export const GetOwned = createAsyncThunk(
   
   export const GetHeaded = createAsyncThunk(
     "org/getheaded",
-    async (UserDetails, { rejectWithValue }) => {
+    async (id, { rejectWithValue }) => {
       try {
-        const response = await axios.post("http://localhost:5000/api/auth/login", UserDetails);
+        const response = await axios.get("http://localhost:5000/api/getheadeddepartments", {
+           
+          params: {
+              userId:id,
+          },
+      });
         return response.data;
       } catch (error) {
         if (error.response && error.response.data) {
@@ -46,9 +51,14 @@ export const GetOwned = createAsyncThunk(
   );
   export const GetEmployed = createAsyncThunk(
     "org/getemployed",
-    async (UserDetails, { rejectWithValue }) => {
+    async (id, { rejectWithValue }) => {
       try {
-        const response = await axios.post("http://localhost:5000/api/auth/login", UserDetails);
+        const response = await axios.get("http://localhost:5000/api/getemployeeroles", {
+           
+          params: {
+              userId:id,
+          },
+      });
         return response.data;
       } catch (error) {
         if (error.response && error.response.data) {
@@ -135,7 +145,11 @@ const orgSlice=createSlice({
         })
         .addCase(GetHeaded.fulfilled,(state,action)=>{
             state.status="fulfilled";
-            state.H.push(action.payload)
+            state.H = []
+            action.payload.forEach(element => {
+                
+              state.H.push(element)
+          });
         })
         .addCase(GetHeaded.rejected, (state, action) => {
             state.status = "error";
@@ -148,7 +162,12 @@ const orgSlice=createSlice({
         })
         .addCase(GetEmployed.fulfilled,(state,action)=>{
             state.status="fulfilled";
-            state.E.push(action.payload)
+            state.E = []
+
+            action.payload.forEach(element => {
+                
+              state.E.push(element)
+          });
         })
         .addCase(GetEmployed.rejected, (state, action) => {
             state.status = "error";
