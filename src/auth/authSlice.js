@@ -11,7 +11,7 @@ export const Register = createAsyncThunk(
     "user/create",
     async (UserDetails, { rejectWithValue }) => {
       try {
-        const response = await axios.post("http://localhost:5000/api/auth/register", UserDetails);
+        const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/register`, UserDetails);
         return response.data;
       } catch (error) {
         if (error.response && error.response.data) {
@@ -27,7 +27,7 @@ export const Register = createAsyncThunk(
     "user/login",
     async (UserDetails, { rejectWithValue }) => {
       try {
-        const response = await axios.post("http://localhost:5000/api/auth/login", UserDetails);
+        const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/login`, UserDetails);
         return response.data;
       } catch (error) {
         if (error.response && error.response.data) {
