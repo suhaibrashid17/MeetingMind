@@ -100,7 +100,7 @@ const MeetingPage = () => {
       const formData = new FormData();
       formData.append("file", blob, "audio.webm");
 
-      const response = await axios.post("http://localhost:5000/api/transcribe", formData, {
+      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/transcribe`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
