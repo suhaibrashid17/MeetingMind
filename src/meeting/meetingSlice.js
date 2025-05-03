@@ -44,6 +44,23 @@ export const GetAttendedMeetings = createAsyncThunk(
     }
   );
 
+  export const GetMeeting = createAsyncThunk(
+    "meeting/getmeeting",
+    async (id, { rejectWithValue }) => {
+      try {
+        const response = await axios.get(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/meeting/`+id);
+        return response.data;
+      } catch (error) {
+        if (error.response && error.response.data) {
+          return rejectWithValue(error.response.data.message);
+        } else {
+          return rejectWithValue(error.message);
+        }
+      }
+    }
+  );
+
   export const GetOrganizedMeetings = createAsyncThunk(
     "meeting/organizedmeeting",
     async (id, { rejectWithValue }) => {
@@ -111,6 +128,18 @@ const meetingSlice = createSlice({
 
       })
       .addCase(GetOrganizedMeetings.rejected, (state, action) => {
+        state.status = "error";
+        state.error = action.payload || action.error.message;
+        toast.error(action.payload || action.error.message);
+      })
+      .addCase(GetMeeting.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(GetMeeting.fulfilled, (state,action) => {
+        state.status = "fulfilled";
+        state.meeting = action.payload;
+      })
+      .addCase(GetMeeting.rejected, (state, action) => {
         state.status = "error";
         state.error = action.payload || action.error.message;
         toast.error(action.payload || action.error.message);
