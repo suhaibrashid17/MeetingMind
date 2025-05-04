@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { selectLoggedinUser } from '../auth/authSlice';
+import { Logout, selectLoggedinUser } from '../auth/authSlice';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -35,6 +35,16 @@ const Navbar = () => {
           </ul>
         </div>
       )}
+      {
+        user&&(
+          <p
+          className='text-white text-sm md:text-md hover:underline hover:opacity-75 hover:cursor-pointer'
+          onClick={() => {Logout(); NPage("/");}}
+        >
+          Login
+        </p>
+        )
+      }
     </div>
   );
 };

@@ -42,7 +42,7 @@ export const Register = createAsyncThunk(
 export const Logout=createAsyncThunk(
    "user/logout",
    ()=>{
-     
+      return 1;
    }
 )
 

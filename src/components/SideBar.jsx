@@ -76,26 +76,7 @@ const Sidebar = ({ onSelectTab, selectedTab }) => {
         </svg>
       )
     },
-    {
-      name: 'Tasks',
-      id: 'tasks',
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          strokeWidth="2"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM5 6h14M5 10h14M5 14h14"
-          />
-        </svg>
-      )
-    }
+  
   ];
 
   // Desktop sidebar (medium screens and up)
