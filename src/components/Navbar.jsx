@@ -1,10 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Logout, selectLoggedinUser } from '../auth/authSlice';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch  = useDispatch();
   const NPage = (route) => {
     navigate(route);
   };
@@ -39,7 +40,7 @@ const Navbar = () => {
         user&&(
           <p
           className='text-white text-sm md:text-md hover:underline hover:opacity-75 hover:cursor-pointer'
-          onClick={() => {Logout(); NPage("/");}}
+          onClick={() => {dispatch(Logout()); NPage("/");}}
         >
           Logout
         </p>

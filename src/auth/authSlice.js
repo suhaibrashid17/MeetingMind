@@ -38,13 +38,17 @@ export const Register = createAsyncThunk(
       }
     }
   );
-  
-export const Logout=createAsyncThunk(
-   "user/logout",
-   ()=>{
-      return 1;
-   }
-)
+  export const Logout = createAsyncThunk(
+    "user/logout",
+    async (_, { rejectWithValue }) => {
+        try {
+            return 1;
+        } catch (error) {
+            console.error("Logout error:", error);
+            return rejectWithValue(error.message);
+        }
+    }
+);
 
 const authSlice=createSlice({
     name:"authSlice",
