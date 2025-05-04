@@ -348,7 +348,7 @@ const MeetingPage = () => {
                 )}
               </div>
             </div>
-
+             {meeting.status !== "done"&&
             <div className="mt-6">
               <h3 className="font-semibold text-gray-700 mb-2">Agent Monitoring</h3>
               <div className="border rounded-md p-4 bg-gray-50 h-64 overflow-y-auto">
@@ -368,7 +368,7 @@ const MeetingPage = () => {
                   <p className="text-gray-500 italic">Agent messages will appear here...</p>
                 )}
               </div>
-            </div>
+            </div>}
           </div>
         )}
         <Attendees attendees={meeting.attendees} />
