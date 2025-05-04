@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Clock, MessageCircle, Users, Calendar, FileText, ChevronDown, CheckCircle, Shield, BarChart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const MeetingMindFrontPage = () => {
   const mountRef = useRef(null);
@@ -10,6 +11,7 @@ const MeetingMindFrontPage = () => {
   const testimonialsSectionRef = useRef(null);
   const pricingSectionRef = useRef(null);
   const ctaSectionRef = useRef(null);
+  const navigate = useNavigate();
   
   const [currentSection, setCurrentSection] = useState('hero');
   const [scrollY, setScrollY] = useState(0);
@@ -704,7 +706,7 @@ const MeetingMindFrontPage = () => {
           </div>
           
           <div>
-            <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full transition transform hover:scale-105">
+            <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full transition transform hover:scale-105" onClick={()=>navigate("/home")}>
               Get Started
             </button>
           </div>
@@ -724,12 +726,7 @@ const MeetingMindFrontPage = () => {
               MeetingMind uses AI to analyze, summarize, and extract insights from your meetings, 
               helping teams focus on execution rather than documentation.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <button className="hover:cursor-pointer bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-full text-lg font-medium transition transform hover:scale-105 flex items-center justify-center">
-                <p size={20} className="mr-2" />
-                Get Started
-              </button>
-            </div>
+          
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-10 pb-4">
               <div className="text-center">
