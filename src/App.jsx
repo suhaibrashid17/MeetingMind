@@ -9,6 +9,7 @@ import CheckLogin from "./pages/CheckLogin";
 import OrganizationPage from "./pages/OrganizationPage";
 import DepartmentPage from "./pages/DepartmentPage";
 import MeetingPage from "./pages/MeetingPage";
+import MeetingMindFrontPage from "./pages/FrontPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Navbar></Navbar>
       <main className="pt-20">
         <Routes>
+          <Route path="/" element={<MeetingMindFrontPage/>}/>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route
