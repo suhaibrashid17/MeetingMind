@@ -41,7 +41,7 @@ const Navbar = () => {
           className='text-white text-sm md:text-md hover:underline hover:opacity-75 hover:cursor-pointer'
           onClick={() => {Logout(); NPage("/");}}
         >
-          Login
+          Logout
         </p>
         )
       }
