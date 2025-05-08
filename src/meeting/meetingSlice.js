@@ -29,6 +29,25 @@ export const CreateMeeting = createAsyncThunk(
   }
 );
 
+
+export const DeleteMeeting = createAsyncThunk(
+  "meeting/deletemeeting",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/meeting/`+id);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+
 export const GetAttendedMeetings = createAsyncThunk(
   "meeting/attendedmeeting",
   async (id, { rejectWithValue }) => {
@@ -116,6 +135,18 @@ const meetingSlice = createSlice({
         toast.success("Meeting created successfully");
       })
       .addCase(CreateMeeting.rejected, (state, action) => {
+        state.status = "error";
+        state.error = action.payload || action.error.message;
+        toast.error(action.payload || action.error.message);
+      })
+      .addCase(DeleteMeeting.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(DeleteMeeting.fulfilled, (state) => {
+        state.status = "fulfilled";
+        toast.success("Meeting deleted successfully");
+      })
+      .addCase(DeleteMeeting.rejected, (state, action) => {
         state.status = "error";
         state.error = action.payload || action.error.message;
         toast.error(action.payload || action.error.message);

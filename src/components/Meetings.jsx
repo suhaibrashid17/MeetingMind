@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
+  DeleteMeeting,
   GetAttendedMeetings,
   GetOrganizedMeetings,
   selectAttendedMeetings,
@@ -7,7 +8,7 @@ import {
 } from "../meeting/meetingSlice";
 import { useEffect, useState } from "react";
 import { selectLoggedinUser } from "../auth/authSlice";
-import { Calendar, Clock, Search, Filter, X } from "lucide-react";
+import { Calendar, Clock, Search, Filter, X, Trash2 } from "lucide-react";
 
 const Meetings = () => {
   const organizedMeetings = useSelector(selectOrganizedMeetings) || [];
@@ -18,6 +19,8 @@ const Meetings = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [dateFilter, setDateFilter] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [meetingToDelete, setMeetingToDelete] = useState(null);
 
   useEffect(() => {
     if (user?.user?.id) {
@@ -64,12 +67,36 @@ const Meetings = () => {
     window.location.href = `/meeting/${meetingId}`;
   };
 
+  const handleDeleteClick = (e, meetingId) => {
+    e.stopPropagation(); // Prevent triggering the card's onClick
+    setMeetingToDelete(meetingId);
+    setShowDeleteModal(true);
+  };
+
+  const  confirmDelete = async() => {
+    if (meetingToDelete) {
+      await dispatch(DeleteMeeting(meetingToDelete));
+      
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
+    setMeetingToDelete(null);
+  };
+
   const renderMeetingCard = (meeting) => (
     <div
       key={meeting._id}
-      className="w-full bg-white text-black p-4 flex flex-col justify-between rounded border border-black hover:bg-gray-50 cursor-pointer transition-all duration-300 shadow-sm"
+      className="w-full bg-white text-black p-4 flex flex-col justify-between rounded border border-black hover:bg-gray-50 cursor-pointer transition-all duration-300 shadow-sm relative"
       onClick={() => handleMeetingClick(meeting._id)}
     >
+      <button
+        onClick={(e) => handleDeleteClick(e, meeting._id)}
+        className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-200"
+      >
+        <Trash2 size={16} className="text-red-600" />
+      </button>
       <h3 className="text-lg font-semibold mb-2 line-clamp-2">{meeting.title}</h3>
       <div className="mt-auto">
         <div className="flex items-center mt-3">
@@ -161,18 +188,46 @@ const Meetings = () => {
         {/* Date Filter */}
         {showFilters && (
           <div className="mb-8 p-6 bg-white rounded-lg border border-black">
-          <div>
-            <label className="block text-sm font-medium text-black mb-2">
-              Filter by Meeting Date
-            </label>
-            <input
-              type="date"
-              value={dateFilter}
-              onChange={(e) => setDateFilter(e.target.value)}
-              className="w-full p-3 bg-white border border-black rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
-            />
+            <div>
+              <label className="block text-sm font-medium text-black mb-2">
+                Filter by Meeting Date
+              </label>
+              <input
+                type="date"
+                value={dateFilter}
+                onChange={(e) => setDateFilter(e.target.value)}
+                className="w-full p-3 bg-white border border-black rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
+              />
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Delete Confirmation Modal */}
+        {showDeleteModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg border border-black max-w-md w-full">
+              <h2 className="text-xl font-semibold text-black mb-4">
+                Confirm Deletion
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Are you sure you want to delete this meeting? This action cannot be undone.
+              </p>
+              <div className="flex justify-end gap-4">
+                <button
+                  onClick={cancelDelete}
+                  className="px-4 py-2 bg-white border border-black rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="px-4 py-2 bg-red-600 text-white border border-red-600 rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Yes, Delete
+                </button>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Meeting sections */}
