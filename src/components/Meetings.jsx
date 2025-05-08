@@ -73,10 +73,14 @@ const Meetings = () => {
     setShowDeleteModal(true);
   };
 
-  const  confirmDelete = async() => {
-    if (meetingToDelete) {
+  const confirmDelete = async () => {
+    if (meetingToDelete && user?.user?.id) {
       await dispatch(DeleteMeeting(meetingToDelete));
-      
+      // Refresh meeting lists after deletion
+      await dispatch(GetAttendedMeetings(user.user.id));
+      await dispatch(GetOrganizedMeetings(user.user.id));
+      setShowDeleteModal(false);
+      setMeetingToDelete(null);
     }
   };
 
@@ -212,7 +216,7 @@ const Meetings = () => {
               <p className="text-gray-600 mb-6">
                 Are you sure you want to delete this meeting? This action cannot be undone.
               </p>
-              <div className="flex justify-end gap-4">
+              <div className="flex justify-end gap verspreidung-4">
                 <button
                   onClick={cancelDelete}
                   className="px-4 py-2 bg-white border border-black rounded-lg hover:bg-gray-50 transition-colors"
